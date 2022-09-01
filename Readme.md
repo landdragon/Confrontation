@@ -1,2 +1,2 @@
-[![Confrontation Test](https://github.com/landdragon/Confrontation/actions/workflows/Test.yml/badge.svg?branch=master)](https://github.com/landdragon/Confrontation/actions/workflows/Test.yml)
+[![CI](https://github.com/landdragon/Confrontation/actions/workflows/Test.yml/badge.svg?branch=master)](https://github.com/landdragon/Confrontation/actions/workflows/Test.yml)
 [![Coverage Status](https://coveralls.io/repos/github/landdragon/Confrontation/badge.svg?branch=master)](https://coveralls.io/github/landdragon/Confrontation?branch=master)
