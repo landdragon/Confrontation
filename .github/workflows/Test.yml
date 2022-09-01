@@ -1,5 +1,5 @@
 
-name: Confrontation Test
+name: CI
 
 on: [push]
 
