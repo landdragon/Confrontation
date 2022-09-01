@@ -36,14 +36,15 @@ jobs:
         run: |
           New-Item -Path .\.sonar\scanner -ItemType Directory
           dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
+      - name: Install dependencies
+        run: dotnet restore
       - name: Build and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"landdragon_Confrontation" /o:"landdragon" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.tests=ConfrontationTest /d:sonar.cs.opencover.reportsPaths=coverage.info
-          dotnet restore
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"landdragon_Confrontation" /o:"landdragon" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.sources=Confrontation /d:sonar.tests=ConfrontationTest /d:sonar.cs.opencover.reportsPaths=coverage.info
           dotnet build --configuration Release --no-restore
           dotnet test --no-restore --verbosity normal /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov 
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
