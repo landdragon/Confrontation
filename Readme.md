@@ -1,5 +1,6 @@
 [![CI](https://github.com/landdragon/Confrontation/actions/workflows/Test.yml/badge.svg?branch=master)](https://github.com/landdragon/Confrontation/actions/workflows/Test.yml)
 [![Coverage Status](https://coveralls.io/repos/github/landdragon/Confrontation/badge.svg?branch=master)](https://coveralls.io/github/landdragon/Confrontation?branch=master)
+
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=landdragon_Confrontation&metric=coverage)](https://sonarcloud.io/summary/new_code?id=landdragon_Confrontation)
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=landdragon_Confrontation&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=landdragon_Confrontation)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=landdragon_Confrontation&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=landdragon_Confrontation)
