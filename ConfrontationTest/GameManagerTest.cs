@@ -30,7 +30,10 @@ namespace ConfrontationTest
 
             _diceRoller.Verify(x => x.RollDice(), Times.Exactly(6));
             _rulesManager.Verify(x => x.ComputePoint(dice), Times.Exactly(6));
-            _displayer.Verify(x => x.DisplayGame(It.IsAny<GameData>()), Times.Once);
+            _rulesManager.Verify(x => x.EvaluateWinner(It.IsAny<List<(int player, int computer)>>()), Times.Once);
+            _displayer.Verify(x => x.DisplayWinner(It.IsAny<WinnerEnum>()), Times.Once);
+            _displayer.Verify(x => x.DisplayScores(It.IsAny<List<(int player, int computer)>>()), Times.Once);
+            _displayer.Verify(x => x.DisplayDice(It.IsAny<List<(int heaven, int hell)>>()), Times.Once);
         }
     }
 }

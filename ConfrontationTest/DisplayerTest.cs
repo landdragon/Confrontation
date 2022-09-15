@@ -1,6 +1,5 @@
 ﻿using Confrontation;
 using Moq;
-using System.Linq;
 
 namespace ConfrontationTest
 {
@@ -8,8 +7,6 @@ namespace ConfrontationTest
     {
         private Mock<IWriter> _writer;
         private IDisplayer _displayer;
-        (int heaven, int hell) _playerWinDice = (3, 3);
-        (int heaven, int hell) _computerWinDice = (2, 1);
 
         public DisplayerTest()
         {
@@ -18,110 +15,65 @@ namespace ConfrontationTest
         }
 
         [Fact]
-        void Display_Match_Null()
+        public void DisplayWinner_Match_Null()
         {
-            var gameData = GenerateGameDataWithComputerEquality();
-
-            _displayer.DisplayGame(gameData);
+            _displayer.DisplayWinner(WinnerEnum.Null);
 
             _writer.Verify(x => x.WriteLine("Match Nul"), Times.Once);
-
-            _writer.Verify(x => x.WriteLine($"Round 1: heaven ({_playerWinDice.heaven}) hell ({_playerWinDice.hell})"), Times.Once);
-            _writer.Verify(x => x.WriteLine($"Round 2: heaven ({_playerWinDice.heaven}) hell ({_playerWinDice.hell})"), Times.Once);
-            _writer.Verify(x => x.WriteLine($"Round 3: heaven ({_playerWinDice.heaven}) hell ({_playerWinDice.hell})"), Times.Once);
-            _writer.Verify(x => x.WriteLine($"Round 4: heaven ({_computerWinDice.heaven}) hell ({_computerWinDice.hell})"), Times.Once);
-            _writer.Verify(x => x.WriteLine($"Round 5: heaven ({_computerWinDice.heaven}) hell ({_computerWinDice.hell})"), Times.Once);
-            _writer.Verify(x => x.WriteLine($"Round 6: heaven ({_computerWinDice.heaven}) hell ({_computerWinDice.hell})"), Times.Once);
-            var scoresPlayer = gameData.Scores.Select(x => x.player);
-            var scoresPlayerFormated = string.Join(", ", scoresPlayer);
-            _writer.Verify(x => x.WriteLine($"Player: [{scoresPlayerFormated}] = {scoresPlayer.Sum()}"), Times.Once);
-            var scoresComputer = gameData.Scores.Select(x => x.computer);
-            var scoresComputerFormated = string.Join(", ", scoresComputer);
-            _writer.Verify(x => x.WriteLine($"Computer: [{scoresComputerFormated}] = {scoresComputer.Sum()}"), Times.Once);
         }
 
         [Fact]
-        void Display_Player_Win()
+        public void DisplayWinner_Player_Win()
         {
-            var gameData = GenerateGameDataWithPlayerWin();
-
-            _displayer.DisplayGame(gameData);
+            _displayer.DisplayWinner(WinnerEnum.Player);
 
             _writer.Verify(x => x.WriteLine("Player"), Times.Once);
-
-            _writer.Verify(x => x.WriteLine($"Round 1: heaven ({_playerWinDice.heaven}) hell ({_playerWinDice.hell})"), Times.Once);
-            _writer.Verify(x => x.WriteLine($"Round 2: heaven ({_playerWinDice.heaven}) hell ({_playerWinDice.hell})"), Times.Once);
-            _writer.Verify(x => x.WriteLine($"Round 3: heaven ({_playerWinDice.heaven}) hell ({_playerWinDice.hell})"), Times.Once);
-            _writer.Verify(x => x.WriteLine($"Round 4: heaven ({_playerWinDice.heaven}) hell ({_playerWinDice.hell})"), Times.Once);
-            _writer.Verify(x => x.WriteLine($"Round 5: heaven ({_playerWinDice.heaven}) hell ({_playerWinDice.hell})"), Times.Once);
-            _writer.Verify(x => x.WriteLine($"Round 6: heaven ({_playerWinDice.heaven}) hell ({_playerWinDice.hell})"), Times.Once);
-            var scoresPlayer = gameData.Scores.Select(x => x.player);
-            var scoresPlayerFormated = string.Join(", ", scoresPlayer);
-            _writer.Verify(x => x.WriteLine($"Player: [{scoresPlayerFormated}] = {scoresPlayer.Sum()}"), Times.Once);
-            var scoresComputer = gameData.Scores.Select(x => x.computer);
-            var scoresComputerFormated = string.Join(", ", scoresComputer);
-            _writer.Verify(x => x.WriteLine($"Computer: [{scoresComputerFormated}] = {scoresComputer.Sum()}"), Times.Once);
         }
 
         [Fact]
-        void Display_Computer_Win()
+        public void DisplayWinner_Computer_Win()
         {
-            var gameData = GenerateGameDataWithComputerWin();
-
-            _displayer.DisplayGame(gameData);
+            _displayer.DisplayWinner(WinnerEnum.Computer);
 
             _writer.Verify(x => x.WriteLine("Computer"), Times.Once);
+        }
+        [Fact]
+        public void DisplayScores()
+        {
+            var scores = new List<(int player, int computer)>();
+            for (int i = 0; i < 3; i++)
+            {
+                scores.Add((3, -3));
+            }
+            for (int i = 0; i < 3; i++)
+            {
+                scores.Add((-3, 3));
+            }
+            _displayer.DisplayScores(scores);
 
-            _writer.Verify(x => x.WriteLine($"Round 1: heaven ({_computerWinDice.heaven}) hell ({_computerWinDice.hell})"), Times.Once);
-            _writer.Verify(x => x.WriteLine($"Round 2: heaven ({_computerWinDice.heaven}) hell ({_computerWinDice.hell})"), Times.Once);
-            _writer.Verify(x => x.WriteLine($"Round 3: heaven ({_computerWinDice.heaven}) hell ({_computerWinDice.hell})"), Times.Once);
-            _writer.Verify(x => x.WriteLine($"Round 4: heaven ({_computerWinDice.heaven}) hell ({_computerWinDice.hell})"), Times.Once);
-            _writer.Verify(x => x.WriteLine($"Round 5: heaven ({_computerWinDice.heaven}) hell ({_computerWinDice.hell})"), Times.Once);
-            _writer.Verify(x => x.WriteLine($"Round 6: heaven ({_computerWinDice.heaven}) hell ({_computerWinDice.hell})"), Times.Once);
-            var scoresPlayer = gameData.Scores.Select(x => x.player);
+            var scoresPlayer = scores.Select(x => x.player);
             var scoresPlayerFormated = string.Join(", ", scoresPlayer);
             _writer.Verify(x => x.WriteLine($"Player: [{scoresPlayerFormated}] = {scoresPlayer.Sum()}"), Times.Once);
-            var scoresComputer = gameData.Scores.Select(x => x.computer);
+            var scoresComputer = scores.Select(x => x.computer);
             var scoresComputerFormated = string.Join(", ", scoresComputer);
             _writer.Verify(x => x.WriteLine($"Computer: [{scoresComputerFormated}] = {scoresComputer.Sum()}"), Times.Once);
-
-
         }
-
-        private GameData GenerateGameDataWithPlayerWin()
+        [Fact]
+        public void DisplayDice()
         {
-            var gameData = new GameData();
+            var dice = new List<(int heaven, int hell)>();
             for (int i = 0; i < 6; i++)
             {
-                gameData.Dice.Add(_playerWinDice);
-                gameData.Scores.Add((3, -3));
+                var heaven = i + 1;
+                var hell = i + 2 > 6 ? i + 2 - 6 : i + 2;
+                dice.Add((heaven, hell));
             }
-            return gameData;
-        }
-        private GameData GenerateGameDataWithComputerWin()
-        {
-            var gameData = new GameData();
-            for (int i = 0; i < 6; i++)
+            _displayer.DisplayDice(dice);
+
+            for (int i = 0; i < dice.Count; i++)
             {
-                gameData.Dice.Add(_computerWinDice);
-                gameData.Scores.Add((-3, 3));
+                _writer.Verify(x => x.WriteLine($"Round {i+1}: heaven ({dice[i].heaven}) hell ({dice[i].hell})"), Times.Once);
             }
-            return gameData;
-        }
-        private GameData GenerateGameDataWithComputerEquality()
-        {
-            var gameData = new GameData();
-            for (int i = 0; i < 3; i++)
-            {
-                gameData.Dice.Add(_playerWinDice);
-                gameData.Scores.Add((3, -3));
-            }
-            for (int i = 0; i < 3; i++)
-            {
-                gameData.Dice.Add(_computerWinDice);
-                gameData.Scores.Add((-3, 3));
-            }
-            return gameData;
         }
     }
 }

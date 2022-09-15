@@ -4,7 +4,7 @@ namespace ConfrontationTest
 {
     public class RulesManagerTest
     {
-        private RulesManager _rulesManager;
+        private IRulesManager _rulesManager;
 
         public RulesManagerTest()
         {
@@ -67,6 +67,47 @@ namespace ConfrontationTest
 
             Assert.Equal(-((heaven* heaven) -(hell* hell* hell)), player);
             Assert.Equal((heaven* heaven) -(hell* hell* hell), computer);
+        }
+
+        [Fact]
+        public void Winner_Should_Be_Player()
+        {
+            var gameData = new GameData();
+            for (int i = 0; i < 6; i++)
+            {
+                gameData.Scores.Add((3, -3));
+            }
+            var winner = _rulesManager.EvaluateWinner(gameData.Scores);
+
+            Assert.Equal(WinnerEnum.Player, winner);
+        }
+        [Fact]
+        public void Winner_Should_Be_Computer()
+        {
+            var gameData = new GameData();
+            for (int i = 0; i < 6; i++)
+            {
+                gameData.Scores.Add((-3, 3));
+            }
+            var winner = _rulesManager.EvaluateWinner(gameData.Scores);
+
+            Assert.Equal(WinnerEnum.Computer, winner);
+        }
+        [Fact]
+        public void Winner_Should_Be_Null()
+        {
+            var gameData = new GameData();
+            for (int i = 0; i < 3; i++)
+            {
+                gameData.Scores.Add((-3, 3));
+            }
+            for (int i = 0; i < 3; i++)
+            {
+                gameData.Scores.Add((3, -3));
+            }
+            var winner = _rulesManager.EvaluateWinner(gameData.Scores);
+
+            Assert.Equal(WinnerEnum.Null, winner);
         }
     }
 }

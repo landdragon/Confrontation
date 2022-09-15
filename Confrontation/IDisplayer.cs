@@ -2,6 +2,8 @@
 {
     public interface IDisplayer
     {
-        void DisplayGame(GameData gameData);
+        void DisplayDice(List<(int heaven, int hell)> dice);
+        void DisplayScores(List<(int player, int computer)> scores);
+        void DisplayWinner(WinnerEnum winner);
     }
 }

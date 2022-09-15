@@ -28,5 +28,21 @@
             var ruleIndex = _rulesCondition.FindIndex(Rule => Rule(dice.heaven, dice.hell));
             return _rulesResult[ruleIndex](dice.heaven, dice.hell);
         }
+
+        public WinnerEnum EvaluateWinner(List<(int player, int computer)> scores)
+        {
+            var playerScore = scores.Sum(x => x.player);
+            var computerScore = scores.Sum(x => x.computer);
+            if (playerScore == computerScore)
+            {
+                return WinnerEnum.Null;
+            }
+            if (playerScore > computerScore)
+            {
+                return WinnerEnum.Player;
+
+            }
+            return WinnerEnum.Computer;
+        }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace Confrontation
+﻿using System.Runtime.CompilerServices;
+
+namespace Confrontation
 {
     public static class Program
     {

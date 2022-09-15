@@ -24,8 +24,10 @@
                 gameData.Scores.Add(score);
                 gameData.Dice.Add(dice);
             }
-
-            _displayer.DisplayGame(gameData);
+            var winner = _rulesManager.EvaluateWinner(gameData.Scores);
+            _displayer.DisplayWinner(winner);
+            _displayer.DisplayDice(gameData.Dice);
+            _displayer.DisplayScores(gameData.Scores);
         }
     }
 }
